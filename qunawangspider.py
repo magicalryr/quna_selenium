@@ -7,6 +7,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 import time
 
+client = pymongo.MongoClient('localhost', 27017)
+ceshi = client['qunawang']
+item_infoA = ceshi['hotel']
 
 class QunaSpider(object):
 
@@ -62,6 +65,7 @@ class QunaSpider(object):
                             '酒店链接': 'http://hotel.qunar.com' + hotel_urls
                         }
                         print data
+                        item_infoA.insert_one(data)
                     else:
                         data = {
                             '酒店': hotel_title.get_text().strip(),
@@ -71,6 +75,7 @@ class QunaSpider(object):
                             '酒店链接': hotel_urls
                         }
                         print data
+                        item_infoA.insert_one(data)
             except Exception,e:
                 print e
                 break
